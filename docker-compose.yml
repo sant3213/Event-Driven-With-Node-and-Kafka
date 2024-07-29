@@ -31,11 +31,9 @@ services:
       - mongo-data:/data/db
 
   backend:
-    build:
-      context: D:\\projects\\NodenKafka\\backend
-      dockerfile: Dockerfile
+    build: ./backend
     ports:
-      - "3001:3000"
+      - "3000:3000"
     environment:
       - KAFKA_BROKER=kafka:9092
       - MONGO_URL=mongodb://mongo:27017/financialDb
@@ -47,18 +45,17 @@ services:
       - /usr/src/app/node_modules
 
   frontend:
-    build:
-      context: D:\\projects\\NodenKafka\\frontend
-      dockerfile: Dockerfile
+    build: ./frontend
     ports:
-      - "3000:3000"
+      - "3001:3000"
     environment:
       - REACT_APP_API_URL=http://localhost:3000
       - CI=true
     depends_on:
       - backend
     volumes:
-      - D:\\projects\\NodenKafka\\frontend:/usr/src/app
+      - ./frontend/:/usr/src/app
+      - /usr/src/app/node_modules
 
 volumes:
   mongo-data:
